@@ -22,7 +22,7 @@ The entire payment layer runs on a custom Initia appchain with 0-gas fees, sessi
 
 ## Demo
 
-[![Watch the demo](https://img.shields.io/badge/Demo%20Video-Watch%20Now-red?style=for-the-badge)](https://your-demo-link-here)
+[![Watch the demo](https://img.shields.io/badge/Demo%20Video-Watch%20Now-red?style=for-the-badge)]([https://your-demo-link-here](https://youtu.be/sFbP8MftqH0))
 
 ---
 
