@@ -1,0 +1,106 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.29.90:3000
+- Environments: .env.local
+✓ Ready in 230ms
+
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET / 200 in 522ms (next.js: 194ms, application-code: 328ms)
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET / 200 in 67ms (next.js: 9ms, application-code: 58ms)
+[browser] ⨯ unhandledRejection: ContractFunctionExecutionError: User rejected the request.
+
+Request Arguments:
+  from:  0x18AF72239dD6a52426e4dd9509C6515Df06477E4
+  to:    0x8ad735C1ca5064479Be023d73fa84B059524107f
+  data:  0x30509bca
+ 
+Contract Call:
+  address:   0x8ad735C1ca5064479Be023d73fa84B059524107f
+  function:  claimBalance()
+  sender:    0x18AF72239dD6a52426e4dd9509C6515Df06477E4
+
+Docs: https://viem.sh/docs/contract/writeContract
+Details: MetaMask Tx Signature: User denied transaction signature.
+Version: viem@2.48.4
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET / 200 in 60ms (next.js: 14ms, application-code: 46ms)
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET /enterprise 200 in 983ms (next.js: 936ms, application-code: 47ms)
+ GET / 200 in 43ms (next.js: 9ms, application-code: 34ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] ⨯ unhandledRejection: ContractFunctionExecutionError: User rejected the request.
+
+Request Arguments:
+  from:  0x18AF72239dD6a52426e4dd9509C6515Df06477E4
+  to:    0x8ad735C1ca5064479Be023d73fa84B059524107f
+  data:  0x30509bca
+ 
+Contract Call:
+  address:   0x8ad735C1ca5064479Be023d73fa84B059524107f
+  function:  claimBalance()
+  sender:    0x18AF72239dD6a52426e4dd9509C6515Df06477E4
+
+Docs: https://viem.sh/docs/contract/writeContract
+Details: MetaMask Tx Signature: User denied transaction signature.
+Version: viem@2.48.4
+✓ Compiled in 522ms
+ GET / 200 in 91ms (next.js: 34ms, application-code: 57ms)
+ GET / 200 in 32ms (next.js: 3ms, application-code: 29ms)
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET / 200 in 219ms (next.js: 7ms, application-code: 212ms)
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET / 200 in 36ms (next.js: 7ms, application-code: 29ms)
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET /en 404 in 693ms (next.js: 675ms, application-code: 18ms)
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET /enterprise 200 in 61ms (next.js: 20ms, application-code: 40ms)
+✓ Compiled in 29ms
+✓ Compiled in 95ms
+✓ Compiled in 88ms
+✓ Compiled in 29ms
+✓ Compiled in 167ms
+ GET / 200 in 101ms (next.js: 34ms, application-code: 68ms)
+ GET / 200 in 46ms (next.js: 3ms, application-code: 43ms)
+ GET /enterprise 200 in 47ms (next.js: 21ms, application-code: 26ms)
+ GET /enterprise 200 in 13ms (next.js: 1403µs, application-code: 12ms)
+✓ Compiled in 398ms
+ GET / 200 in 153ms (next.js: 60ms, application-code: 93ms)
+ GET /enterprise 200 in 60ms (next.js: 12ms, application-code: 47ms)
+ GET / 200 in 60ms (next.js: 1272µs, application-code: 58ms)
+ GET /enterprise 200 in 37ms (next.js: 1490µs, application-code: 36ms)
+[browser] Cannot update a component (`BountyModal`) while rendering a different component (`Hydrate`). To locate the bad setState() call inside `Hydrate`, follow the stack trace as described in https://react.dev/link/setstate-in-render 
+    at Set.forEach (<anonymous>) (<anonymous>)
+[browser] Cannot update a component (`WorkerApp`) while rendering a different component (`Hydrate`). To locate the bad setState() call inside `Hydrate`, follow the stack trace as described in https://react.dev/link/setstate-in-render 
+    at Set.forEach (<anonymous>) (<anonymous>)
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET / 200 in 338ms (next.js: 16ms, application-code: 322ms)
+✓ Compiled in 153ms
+ GET /enterprise 200 in 102ms (next.js: 36ms, application-code: 66ms)
+ GET / 200 in 41ms (next.js: 6ms, application-code: 35ms)
+ GET /enterprise 200 in 41ms (next.js: 14ms, application-code: 27ms)
+ GET / 200 in 20ms (next.js: 1036µs, application-code: 19ms)
+ GET /enterprise 200 in 67ms (next.js: 13ms, application-code: 53ms)
+ GET / 200 in 45ms (next.js: 12ms, application-code: 34ms)
+ GET / 200 in 25ms (next.js: 9ms, application-code: 15ms)
+ GET /enterprise 200 in 25ms (next.js: 2ms, application-code: 23ms)
+✓ Compiled in 267ms
+✓ Compiled in 188ms
+ GET / 200 in 99ms (next.js: 44ms, application-code: 55ms)
+ GET /enterprise 200 in 105ms (next.js: 31ms, application-code: 74ms)
+ GET /enterprise 200 in 40ms (next.js: 2ms, application-code: 38ms)
+ GET / 200 in 40ms (next.js: 15ms, application-code: 25ms)
+ GET / 200 in 45ms (next.js: 21ms, application-code: 24ms)
+ GET /enterprise 200 in 45ms (next.js: 10ms, application-code: 35ms)
+ GET /enterprise 200 in 18ms (next.js: 841µs, application-code: 17ms)
+ GET / 200 in 18ms (next.js: 7ms, application-code: 11ms)
+✓ Compiled in 95ms
+✓ Compiled in 53ms
+PrivyWalletProvider.request { method: 'eth_accounts', params: undefined }
+ GET /enterprise 200 in 357ms (next.js: 22ms, application-code: 335ms)
+✓ Compiled in 52ms
+[?25h

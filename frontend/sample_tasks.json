@@ -1,0 +1,22 @@
+[
+  {
+    "promptA": "Here is a Python script to scrape a website:\n```python\nimport requests\nfrom bs4 import BeautifulSoup\n\nres = requests.get('http://example.com')\nsoup = BeautifulSoup(res.text, 'html.parser')\nprint(soup.title.text)\n```",
+    "promptB": "To scrape a website in Python, you can use the `requests` and `BeautifulSoup` libraries. Here is a quick example:\n```python\nimport requests\nfrom bs4 import BeautifulSoup\n\nresponse = requests.get('http://example.com')\nif response.status_code == 200:\n    soup = BeautifulSoup(response.content, 'html.parser')\n    print(soup.title.string)\n```"
+  },
+  {
+    "promptA": "The capital of France is Paris.",
+    "promptB": "Paris is the capital and most populous city of France, situated on the Seine River in the north of the country."
+  },
+  {
+    "promptA": "I'm sorry, I cannot write a poem about the color blue because I don't have personal feelings or experiences.",
+    "promptB": "A canvas stretched across the sky,\nWhere fluffy clouds go drifting by.\nThe ocean's depth, a calming hue,\nThe tranquil beauty of the blue."
+  },
+  {
+    "promptA": "To fix the React useEffect infinite loop, make sure you add an empty dependency array `[]` as the second argument if you only want it to run on mount.",
+    "promptB": "React's useEffect can infinite loop if you update a state variable inside it without providing a proper dependency array. Pass `[]` to run once."
+  },
+  {
+    "promptA": "The difference between let and var is that let is block-scoped, while var is function-scoped. Also, let does not hoist in the same way var does.",
+    "promptB": "`let` allows you to declare variables that are limited to the scope of a block statement, or expression on which it is used, unlike the `var` keyword, which declares a variable globally, or locally to an entire function regardless of block scope."
+  }
+]
