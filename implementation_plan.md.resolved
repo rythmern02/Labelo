@@ -1,0 +1,194 @@
+# Labelo – Decentralized RLHF Protocol on Initia
+
+A full-stack MVP for the hackathon: a two-sided decentralized data-labeling and RLHF marketplace built on an Initia MiniEVM rollup chain, with session-key auto-signing for zero-friction mobile workers and a clean enterprise B2B dashboard.
+
+---
+
+## Architecture Overview
+
+```mermaid
+graph TD
+    A["Enterprise Dashboard\n(labelo.com/enterprise)"] -->|deposit USDC + upload dataset| B["BountyEscrow.sol\n(Initia MiniEVM)"]
+    B -->|task queue written| C["Supabase (PostgreSQL)\nTask & Worker DB"]
+    D["Worker App\n(labelo.com / mobile)"] -->|connect wallet + autosign session| B
+    D -->|fetch task| C
+    D -->|submit label| E["Node.js API\n(Express/TypeScript)"]
+    E -->|verify + call distributePayment| B
+    B -->|0.1 USDC streamed| D
+    F["Assets (S3/IPFS)"] -->|image/prompt URLs| C
+```
+
+**Key principles:**
+- Blockchain = financial settlement + identity only
+- Off-chain DB (Supabase) = task routing, progress tracking
+- Session keys (InterwovenKit `enableAutoSign`) = frictionless mobile UX
+- MiniEVM (Solidity) = hackathon speed, EVM familiarity
+
+---
+
+## Repo Structure
+
+```
+labelo/
+├── contracts/          # Foundry project – BountyEscrow.sol
+├── backend/            # Node.js + Express + TypeScript API
+└── frontend/           # Next.js 14 App Router (worker + enterprise)
+    ├── app/
+    │   ├── page.tsx           # Worker mobile app (root)
+    │   ├── enterprise/        # Enterprise dashboard
+    │   └── providers.tsx      # InterwovenKit + wagmi providers
+    └── components/
+```
+
+---
+
+## Open Questions
+
+> [!IMPORTANT]
+> **Do you have a deployed Initia testnet rollup (chain ID) you want to target?**
+> The MiniEVM testnet chain is `minievm-2` (chain ID `4303131403034904`). If you have a custom rollup already spun up, share its RPC + chain ID and we'll point the contract + frontend there. Otherwise we'll target the shared Initia MiniEVM testnet.
+
+> [!IMPORTANT]
+> **Smart contract payment token – real USDC or a testnet mock ERC-20?**
+> For the hackathon demo we'll deploy a `MockUSDC.sol` (18-decimal ERC-20) so you can mint freely and show the flow. If you have a bridged USDC address on the testnet, we can use that directly.
+
+> [!NOTE]
+> **Backend hosting**: The Node.js API and Supabase need to be reachable by the frontend. For the hackathon we can either (a) run the backend locally and demo on localhost, or (b) deploy to Railway/Render for a live URL. We'll design to support both; just let us know your preference.
+
+---
+
+## Proposed Changes
+
+### 1. Smart Contracts (`contracts/`)
+
+**Stack**: Foundry, Solidity ^0.8.20, OpenZeppelin
+
+#### [NEW] `contracts/src/MockUSDC.sol`
+Simple mintable ERC-20 for testnet demonstration.
+
+#### [NEW] `contracts/src/BountyEscrow.sol`
+Core protocol contract with three main roles:
+- **Enterprise** → calls `depositBounty(datasetId, amount, rewardPerTask)` which pulls USDC into escrow
+- **Backend oracle (trusted address)** → calls `distributePayment(workerId, amount)` after verifying a label submission
+- **Worker** → calls `claimBalance()` to sweep their accumulated balance
+
+Key state:
+```solidity
+mapping(bytes32 => Bounty) public bounties;    // datasetId → escrow
+mapping(address => uint256) public workerBalance; // pending payouts
+```
+
+Events emitted for real-time dashboard updates: `BountyDeposited`, `TaskCompleted`, `PaymentDistributed`.
+
+#### [NEW] `contracts/script/Deploy.s.sol`
+Foundry deploy script targeting Initia MiniEVM (legacy tx type, `--legacy` flag required).
+
+#### [NEW] `contracts/test/BountyEscrow.t.sol`
+Unit tests covering deposit, task completion, payment, and access control.
+
+---
+
+### 2. Backend API (`backend/`)
+
+**Stack**: Node.js 20, TypeScript, Express, Supabase JS client, ethers.js v6, dotenv
+
+#### [NEW] `backend/src/index.ts`
+Express app entry point.
+
+#### [NEW] `backend/src/routes/tasks.ts`
+- `GET  /api/tasks/next` — returns the next unassigned task for a worker (from Supabase)
+- `POST /api/tasks/:id/submit` — receives label submission, verifies it, then calls `distributePayment` on-chain via an oracle private key, marks task done in Supabase
+
+#### [NEW] `backend/src/routes/bounties.ts`
+- `POST /api/bounties` — enterprise creates a dataset: stores metadata + task rows in Supabase (actual image URLs point to S3/IPFS)
+- `GET  /api/bounties/:id` — returns dataset progress (completed/total tasks)
+
+#### [NEW] `backend/src/lib/chain.ts`
+ethers.js provider + oracle signer wired to the Initia MiniEVM RPC.
+
+#### [NEW] `backend/src/lib/supabase.ts`
+Supabase client singleton.
+
+#### [NEW] `backend/.env.example`
+```
+INITIA_RPC_URL=https://jsonrpc-evm-1.anvil.asia-southeast.initia.xyz
+ORACLE_PRIVATE_KEY=0x...
+CONTRACT_ADDRESS=0x...
+SUPABASE_URL=...
+SUPABASE_SERVICE_KEY=...
+```
+
+---
+
+### 3. Frontend (`frontend/`)
+
+**Stack**: Next.js 14 (App Router), TypeScript, Tailwind CSS, `@initia/interwovenkit-react`, `wagmi`, `viem`, `@tanstack/react-query`
+
+#### [NEW] `frontend/app/providers.tsx`
+Wraps the app with:
+- `QueryClientProvider`
+- `WagmiProvider` (custom MiniEVM chain config + `initiaPrivyWalletConnector`)
+- `InterwovenKitProvider` with `enableAutoSign: true` (session key auto-signing for worker swipes)
+- Style injection via `injectStyles()`
+
+#### [NEW] `frontend/app/layout.tsx`
+Root layout with Google Font (Inter), dark gradient background, global CSS variables.
+
+#### [NEW] `frontend/app/page.tsx` – **Worker Mobile App**
+The hero experience. Mobile-first, Tinder-style interface:
+- On load: connect wallet via `openConnect` (InterwovenKit)
+- Auth flow: session key granted once → subsequent submissions are gasless
+- Main screen: two AI-response cards side by side (fetched from backend)
+- Tap "A" or "B" → POST to backend → balance counter animates up (+0.1 USDC)
+- Live balance ticker at top using `wagmi`'s `useReadContract`
+- Streak counter and daily earnings display
+
+#### [NEW] `frontend/app/enterprise/page.tsx` – **Enterprise Dashboard**
+Clean B2B data-heavy dashboard:
+- Connect wallet button
+- "New Bounty" modal: enter dataset name, reward-per-task, upload JSON of prompts/image URLs, confirm USDC deposit (calls `depositBounty` via wagmi's `useWriteContract`)
+- Active bounties table with real-time progress bars (polling backend every 5s)
+- Transaction history panel
+- Live worker count estimate
+
+#### [NEW] `frontend/components/WorkerCard.tsx`
+The core swipe/click labeling card component.
+
+#### [NEW] `frontend/components/BountyModal.tsx`
+Enterprise bounty creation modal with multi-step flow.
+
+#### [NEW] `frontend/components/BalanceTicker.tsx`
+Animated USDC balance display for worker view.
+
+#### [NEW] `frontend/lib/contracts.ts`
+ABI + contract address constants, wagmi read/write hooks wrappers.
+
+#### [NEW] `frontend/lib/api.ts`
+Typed fetch wrappers for the backend API.
+
+---
+
+## Verification Plan
+
+### Automated Tests
+```bash
+# Contract tests
+cd contracts && forge test -vv
+
+# Backend type-check
+cd backend && npx tsc --noEmit
+
+# Frontend build check
+cd frontend && npm run build
+```
+
+### End-to-End Demo Flow (Browser)
+1. Open `localhost:3000/enterprise` → connect wallet → deposit 100 mock USDC + upload 10 sample prompts
+2. Open `localhost:3000` on mobile (or responsive view) → connect worker wallet → autosign session granted
+3. Swipe through 10 tasks → verify balance increments on-screen after each
+4. Return to enterprise dashboard → verify progress bar moves to 100% completed
+
+### Manual Checks
+- Session key: after first approval, subsequent task submissions show **no wallet popup**
+- Balance: worker's on-chain balance in `BountyEscrow.workerBalance[address]` matches UI display
+- Escrow: enterprise's USDC decreases proportionally as tasks are claimed

@@ -1,0 +1,16 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+remappings = [
+  "@openzeppelin/=lib/openzeppelin-contracts/",
+]
+# Initia MiniEVM does NOT support EIP-1559 — always use legacy transactions
+# Pass --legacy to forge script / forge create
+
+[rpc_endpoints]
+# Replace with your Weave-launched rollup JSON-RPC URL after Phase 0
+labelo = "${LABELO_RPC_URL}"
+
+[etherscan]
+labelo = { key = "verifykey", url = "${LABELO_EXPLORER_URL}" }

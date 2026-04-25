@@ -1,0 +1,8 @@
+
+> backend@1.0.0 dev
+> ts-node src/index.ts
+
+🚀 Labelo backend running on http://localhost:4000
+   Oracle: configured ✓
+   RPC:    http://localhost:8545
+   Escrow: 0x8ad735C1ca5064479Be023d73fa84B059524107f
