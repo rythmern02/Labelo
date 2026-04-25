@@ -1,0 +1,32 @@
+{
+  "title": "Labelo",
+  "track": "AI",
+  "short_description": "Decentralized RLHF marketplace — workers earn USDC labeling AI responses, enterprises get on-chain settled training data at 40% less than Scale AI.",
+  "team": {
+    "name": "rythmern02",
+    "github": "rythmern02",
+    "email": "rythmenagrani@gmail.com"
+  },
+  "rollup": {
+    "chain_id": "labelo-1",
+    "numeric_chain_id": "2845540644182047",
+    "rpc_url": "http://localhost:8545",
+    "vm_type": "MiniEVM"
+  },
+  "contracts": {
+    "BountyEscrow": "0x6b1E843eb6C22fFc19Ea0Ee9C705228dcbf2d39f",
+    "MockUSDC": "0x34D5d359edDbE444E34cB7ed10FBA743e1373cd0"
+  },
+  "deployment_transactions": {
+    "MockUSDC": "0xd3ec47f1ded196b2f1df498fae53ebba4c4c2390a1065b287f328e3344f88c35",
+    "BountyEscrow": "0xfbcce9968dab576c75ca7ea31bb7229410ee206047a71a9528429fd7139eaf59"
+  },
+  "initia_features": {
+    "interwovenkit": true,
+    "auto_signing": true,
+    "interwoven_bridge": true,
+    "initia_usernames": true
+  },
+  "repo": "https://github.com/rythmern02/labelo",
+  "demo_video": "https://youtu.be/sFbP8MftqH0"
+}

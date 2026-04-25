@@ -15,3 +15,5 @@ pnpm-debug.log
 .env.test.local
 .env.production.local
 *.env
+
+dev_wallet.txt

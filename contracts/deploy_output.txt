@@ -1,3 +1,0 @@
-error: a value is required for '--private-key <RAW_PRIVATE_KEY>' but none was supplied
-
-For more information, try '--help'.
